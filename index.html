@@ -3,7 +3,29 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LifeLine Future - AI Integrated Life Engine</title>
+    <title>LifeLine Future AI - Your Future, Decoded by AI</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="AI-Powered Predictive Life Roadmap, Encrypted Digital Vault, and 24/7 Futuristic Life Coaching in Marathi and English.">
+    <meta name="keywords" content="LifeLine Future AI, AI Career Roadmap, Future Prediction, Encrypted Vault, LifeScore">
+    <meta name="author" content="LifeLine Future AI">
+    <meta name="theme-color" content="#00f3ff">
+    
+    <!-- OpenGraph Social Preview Cards (WhatsApp, Facebook, LinkedIn, Twitter) -->
+    <meta property="og:title" content="LifeLine Future AI - Your Future, Decoded by AI">
+    <meta property="og:description" content="Predict your tomorrow. Secure your today. 5-10 year AI roadmaps & encrypted life vault.">
+    <meta property="og:image" content="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop">
+    <meta property="og:url" content="https://life-line-future-ai.vercel.app">
+    <meta property="og:type" content="website">
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="LifeLine Future AI">
+    <meta name="twitter:description" content="AI-Driven Predictive Life Roadmap & Encrypted Digital Vault">
+    <meta name="twitter:image" content="https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1200&auto=format&fit=crop">
+
+    <!-- PWA & Favicon -->
+    <link rel="manifest" href="/manifest.json">
+    <link rel="icon" type="image/png" href="https://img.icons8.com/nolan/64/brain.png">
+    
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -680,6 +702,22 @@ Return a clean JSON object without Markdown formatting or backticks matching thi
             appendChatMessage('bot', welcomeText);
         }
 
+        // Text-to-Speech (AI Voice) function
+        function speakMessage(text) {
+            if (!('speechSynthesis' in window)) {
+                alert("Speech Synthesis not supported on this browser.");
+                return;
+            }
+            window.speechSynthesis.cancel(); // Stop ongoing speech
+            // Strip HTML tags for clean audio speech
+            const cleanText = text.replace(/<[^>]*>?/gm, '').replace(/[*_#]/g, '');
+            const utterance = new SpeechSynthesisUtterance(cleanText);
+            utterance.lang = currentLang === 'mr' ? 'mr-IN' : 'en-US';
+            utterance.rate = 0.95;
+            utterance.pitch = 1.0;
+            window.speechSynthesis.speak(utterance);
+        }
+
         function appendChatMessage(sender, msg) {
             const chatBox = document.getElementById('chatBox');
             const wrapper = document.createElement('div');
@@ -692,13 +730,17 @@ Return a clean JSON object without Markdown formatting or backticks matching thi
                     </div>
                 `;
             } else {
+                const rawEscaped = encodeURIComponent(msg);
                 wrapper.className = "flex justify-start gap-2 items-start";
                 wrapper.innerHTML = `
                     <div class="w-6 h-6 rounded-full bg-purple-500/30 border border-purple-400/50 flex items-center justify-center text-neonPurple text-xs flex-shrink-0 mt-0.5">
                         <i class="fa-solid fa-robot"></i>
                     </div>
-                    <div class="bg-slate-900 border border-purple-500/30 text-slate-200 rounded-xl px-3 py-2 max-w-[80%] text-xs shadow-md">
-                        ${msg}
+                    <div class="bg-slate-900 border border-purple-500/30 text-slate-200 rounded-xl px-3 py-2 max-w-[85%] text-xs shadow-md relative group">
+                        <div class="pr-6">${msg}</div>
+                        <button onclick="speakMessage(decodeURIComponent('${rawEscaped}'))" title="Listen / आवाज ऐका" class="absolute top-2 right-2 text-slate-400 hover:text-cyan-400 text-xs transition-colors">
+                            <i class="fa-solid fa-volume-high"></i>
+                        </button>
                     </div>
                 `;
             }
@@ -904,6 +946,15 @@ Return a clean JSON object without Markdown formatting or backticks matching thi
             renderTimeline();
             initChatWelcome();
             initParticleCanvas();
+
+            // Register PWA Service Worker for Offline & Installable App
+            if ('serviceWorker' in navigator) {
+                navigator.serviceWorker.register('/sw.js').then(() => {
+                    console.log("LifeLine Future AI PWA Service Worker Registered.");
+                }).catch(err => {
+                    console.warn("Service worker registration skipped:", err);
+                });
+            }
         };
     </script>
 </body>
