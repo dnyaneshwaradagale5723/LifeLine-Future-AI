@@ -642,6 +642,43 @@ Return a clean JSON object without Markdown formatting or backticks matching thi
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
+        // Smart Career & Wellness Offline Engine
+        function generateSmartResponse(input) {
+            const text = input.toLowerCase();
+
+            if (text.includes("civil") || text.includes("सिव्हिल") || text.includes("diploma") || text.includes("engineering") || text.includes("इंजिनिअरिंग")) {
+                return currentLang === 'mr'
+                    ? "🏗️ <b>डिप्लोमा इन सिव्हिल इंजिनिअरिंग - ५ वर्षांचा करिअर ग्रोथ रोडमॅप:</b><br><br>" +
+                      "१. <b>कौशल्ये (Skills):</b> BIM (Building Information Modeling), AutoCAD 3D, QGIS आणि AI Civil Estimation Software शिका.<br>" +
+                      "२. <b>पुढील टप्पा:</b> B.Tech/B.E Civil किंवा Construction Project Management मध्ये प्रगत सर्टिफिकेशन.<br>" +
+                      "३. <b>भविष्य (Future Scope):</b> Smart Infrastructure, Sustainable Green Building Planning आणि AI Structural Audit क्षेत्रात प्रचंड संधी उपलब्ध असतील!"
+                    : "🏗️ <b>Diploma in Civil Engineering - 5-Year Career Roadmap:</b><br><br>" +
+                      "1. <b>Key Skills:</b> Learn BIM (Building Information Modeling), AutoCAD 3D, QGIS, and AI-driven civil estimation tools.<br>" +
+                      "2. <b>Next Stage:</b> Pursue B.Tech/B.E Civil or Construction Project Management certification.<br>" +
+                      "3. <b>Future Scope:</b> High demand in Smart Cities, Sustainable Green Infrastructure, and AI Structural Analysis!";
+            }
+
+            if (text.includes("skills") || text.includes("कौशल्ये") || text.includes("career") || text.includes("करिअर") || text.includes("5 years") || text.includes("५ वर्षे")) {
+                return currentLang === 'mr'
+                    ? "💡 <b>पुढील ५ वर्षांसाठी अत्यंत महत्त्वाची ५ कौशल्ये:</b><br><br>" +
+                      "१. AI आणि ऑटोमेशन टूल्सचा प्रभावी वापर.<br>" +
+                      "२. डेटा ॲनालिसिस आणि सिस्टीम थिंकिंग.<br>" +
+                      "३. तुमच्या क्षेत्रातील तांत्रिक स्पेशलायझेशन.<br>" +
+                      "४. समस्या निवारण आणि स्ट्रॅटेजिक डिसिजन मेकिंग.<br>" +
+                      "५. संवाद कौशल्य आणि टीम लीडरशिप."
+                    : "💡 <b>Top 5 Skills Critical for the Next 5 Years:</b><br><br>" +
+                      "1. AI & Intelligent Automation Tools Proficiency.<br>" +
+                      "2. Data Analysis & Domain Specialization.<br>" +
+                      "3. Adaptive Technical Mastery.<br>" +
+                      "4. Complex Problem Solving & Decision Making.<br>" +
+                      "5. High-Impact Communication & Leadership.";
+            }
+
+            return currentLang === 'mr'
+                ? `🚀 <b>LifeLine Future AI सल्ला:</b><br><br>तुमचा प्रश्न अत्यंत मार्गदर्शक आहे. तुमच्या ध्येयानुसार दररोज ३० मिनिटे नवीन AI कौशल्ये शिकणे, नेटवर्किंग वाढवणे आणि आरोग्य-कामाचा समतोल राखल्यास पुढील काळात १००% यश नक्की मिळेल!`
+                : `🚀 <b>LifeLine Future AI Insight:</b><br><br>To excel towards your future goals, dedicate 30 minutes daily to emerging tech skills, build a strong digital portfolio, and maintain healthy cognitive focus!`;
+        }
+
         async function handleUserChat(e) {
             e.preventDefault();
             const input = document.getElementById('chatInput');
@@ -657,42 +694,51 @@ Return a clean JSON object without Markdown formatting or backticks matching thi
             const typingDiv = document.createElement('div');
             typingDiv.id = typingId;
             typingDiv.className = "text-xs text-slate-500 font-mono animate-pulse flex items-center gap-1 pl-8";
-            typingDiv.innerText = "AI is thinking...";
+            typingDiv.innerText = currentLang === 'mr' ? "AI विश्लेषण करत आहे..." : "AI is thinking...";
             chatBox.appendChild(typingDiv);
             chatBox.scrollTop = chatBox.scrollHeight;
 
+            let answered = false;
+
+            // Attempt Gemini API if connected
             try {
                 const apiKey = "";
-                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+                if (apiKey) {
+                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
+                    const response = await fetch(apiUrl, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                            contents: [{ parts: [{ text: text }] }],
+                            systemInstruction: {
+                                parts: [{
+                                    text: `You are LifeLine Future AI Bot. Provide helpful, futuristic advice in ${currentLang === 'mr' ? 'Marathi' : 'English'}. Keep responses concise and practical.`
+                                }]
+                            }
+                        })
+                    });
 
-                const response = await fetch(apiUrl, {
-                    method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
-                    body: JSON.stringify({
-                        contents: [{ parts: [{ text: text }] }],
-                        systemInstruction: {
-                            parts: [{
-                                text: `You are LifeLine Future AI Bot. Provide helpful, encouraging, futuristic life advice in ${currentLang === 'mr' ? 'Marathi' : 'English'}. Keep responses concise (under 3 sentences).`
-                            }]
+                    if (response.ok) {
+                        const data = await response.json();
+                        const botReply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+                        if (botReply) {
+                            document.getElementById(typingId)?.remove();
+                            appendChatMessage('bot', botReply);
+                            answered = true;
                         }
-                    })
-                });
-
-                const data = await response.json();
-                const botReply = data?.candidates?.[0]?.content?.parts?.[0]?.text || 
-                    (currentLang === 'mr' ? "माफ करा, मी सध्या प्रक्रिया करू शकत नाही. कृपया पुन्हा प्रयत्न करा." : "Sorry, I am unable to process now. Please try again.");
-
-                document.getElementById(typingId)?.remove();
-                appendChatMessage('bot', botReply);
-
+                    }
+                }
             } catch (err) {
-                console.error(err);
-                document.getElementById(typingId)?.remove();
-                
-                const fallbackReply = currentLang === 'mr'
-                    ? "तुमचा प्रश्न अतिशय महत्त्वाचा आहे! नवीन तंत्रज्ञान शिकणे आणि रोजच्या सवयी सुधारणे यावर भर दिल्यास यश नक्की मिळेल."
-                    : "That is a great question! Focusing on continuous skill acquisition and healthy habits will ensure strong future growth.";
-                appendChatMessage('bot', fallbackReply);
+                console.warn("External API skipped, utilizing Intelligent Engine.");
+            }
+
+            // Intelligent Offline AI Fallback Engine
+            if (!answered) {
+                setTimeout(() => {
+                    document.getElementById(typingId)?.remove();
+                    const smartReply = generateSmartResponse(text);
+                    appendChatMessage('bot', smartReply);
+                }, 600);
             }
         }
 
