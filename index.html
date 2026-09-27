@@ -105,14 +105,70 @@
             50% { opacity: 0.8; }
         }
 
-        .glow-pulse {
-            animation: pulseGlow 3s infinite ease-in-out;
+        .cyber-grid-overlay {
+            background-image: linear-gradient(rgba(0, 243, 255, 0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(0, 243, 255, 0.03) 1px, transparent 1px);
+            background-size: 36px 36px;
         }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between overflow-x-hidden">
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden relative">
 
-    <header class="sticky top-0 z-50 glass-panel border-b border-cyan-500/20 px-4 lg:px-8 py-3">
+    <!-- Layer 2: Interactive Mouse Particle Canvas -->
+    <canvas id="particleCanvas" class="fixed inset-0 pointer-events-none z-0 opacity-60"></canvas>
+    
+    <!-- Layer 4: Cyberpunk Subtle Grid -->
+    <div class="fixed inset-0 pointer-events-none z-0 cyber-grid-overlay"></div>
+
+    <!-- SOS Crisis Mental Health Modal (Hidden by default) -->
+    <div id="sosModal" class="hidden fixed inset-0 z-50 bg-black/85 backdrop-blur-md flex items-center justify-center p-4">
+        <div class="glass-panel-purple border-2 border-red-500/60 rounded-2xl max-w-lg w-full p-6 space-y-4 shadow-[0_0_50px_rgba(239,68,68,0.3)]">
+            <div class="flex items-center gap-3 text-red-400">
+                <i class="fa-solid fa-hand-holding-heart text-2xl animate-pulse"></i>
+                <h3 class="text-xl font-bold font-orbitron">आपण एकटे नाही आहात (Crisis Support)</h3>
+            </div>
+            <p class="text-sm text-slate-300 leading-relaxed">
+                आयुष्यातील कठीण प्रसंगात स्वतःला एकटे समजू नका. २४x७ मोफत, गोपनीय आणि सन्माननीय मदतीसाठी खालील हेल्पलाइनवर तात्काळ संपर्क साधा:
+            </p>
+            <div class="space-y-2 bg-slate-900/80 p-4 rounded-xl border border-red-500/30 text-xs font-mono">
+                <div class="flex justify-between items-center text-red-300 font-bold">
+                    <span>📞 KIRAN Helpline (Govt of India):</span>
+                    <a href="tel:18005990019" class="underline text-white bg-red-600/60 px-2 py-1 rounded">1800-599-0019</a>
+                </div>
+                <div class="flex justify-between items-center text-cyan-300">
+                    <span>📞 Vandrevala Foundation:</span>
+                    <a href="tel:9999666555" class="underline text-white bg-cyan-600/60 px-2 py-1 rounded">9999 666 555</a>
+                </div>
+                <div class="flex justify-between items-center text-purple-300">
+                    <span>📞 Tele-MANAS:</span>
+                    <a href="tel:14416" class="underline text-white bg-purple-600/60 px-2 py-1 rounded">14416</a>
+                </div>
+            </div>
+            <div class="flex justify-end gap-3 pt-2">
+                <button onclick="toggleSOSModal(false)" class="px-4 py-2 rounded-lg bg-slate-800 text-slate-300 hover:bg-slate-700 text-xs font-bold">
+                    बंद करा (Close)
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Quick Lock Panic Screen (Hidden by default) -->
+    <div id="panicScreen" class="hidden fixed inset-0 z-50 bg-[#0d1117] text-slate-300 p-8 font-mono text-xs overflow-auto">
+        <div class="max-w-4xl mx-auto space-y-4">
+            <div class="flex justify-between items-center border-b border-slate-700 pb-2">
+                <span class="text-green-400 font-bold">System Workspace / Documentation Console</span>
+                <button onclick="togglePanicMode(false)" class="text-slate-500 hover:text-white">[Esc: Return]</button>
+            </div>
+            <p>Loading standard libraries... Initializing workspace memory 0x7FFF92...</p>
+            <div class="bg-black/60 p-4 rounded border border-slate-800 space-y-1 text-slate-400">
+                <p>> git fetch origin main</p>
+                <p>> compilation status: OK (0 errors, 0 warnings)</p>
+                <p>> server uptime: 142h 19m</p>
+                <p class="text-yellow-500">> Ready for input tasks.</p>
+            </div>
+        </div>
+    </div>
+
+    <header class="sticky top-0 z-40 glass-panel border-b border-cyan-500/20 px-4 lg:px-8 py-3">
         <div class="max-w-7xl mx-auto flex justify-between items-center">
             <div class="flex items-center gap-3">
                 <div class="relative">
@@ -132,8 +188,20 @@
                 </div>
             </div>
 
-            <!-- Controls (Language Switcher) -->
-            <div class="flex items-center gap-4">
+            <!-- Controls (Language Switcher, SOS, & Panic) -->
+            <div class="flex items-center gap-3">
+                <!-- SOS Mental Health Button -->
+                <button onclick="toggleSOSModal(true)" title="Crisis & Mental Health SOS" class="px-2.5 py-1.5 rounded-lg bg-red-500/10 border border-red-500/40 text-red-400 hover:bg-red-500/20 text-xs font-bold flex items-center gap-1.5 transition-all">
+                    <i class="fa-solid fa-heart-pulse animate-pulse"></i>
+                    <span class="hidden sm:inline">SOS</span>
+                </button>
+
+                <!-- Panic Quick Lock Button -->
+                <button onclick="togglePanicMode(true)" title="Panic Lock Screen (Press Esc twice)" class="px-2.5 py-1.5 rounded-lg bg-purple-500/10 border border-purple-500/40 text-purple-300 hover:bg-purple-500/20 text-xs font-bold flex items-center gap-1 transition-all">
+                    <i class="fa-solid fa-eye-slash"></i>
+                    <span class="hidden md:inline">Panic Lock</span>
+                </button>
+
                 <div class="flex bg-slate-900/90 border border-cyan-500/30 rounded-lg p-1 text-xs font-semibold">
                     <button id="lang-mr" onclick="switchLanguage('mr')" class="px-3 py-1.5 rounded-md transition-all bg-cyan-500 text-slate-950 font-bold shadow-md">
                         मराठी
@@ -141,10 +209,6 @@
                     <button id="lang-en" onclick="switchLanguage('en')" class="px-3 py-1.5 rounded-md transition-all text-slate-400 hover:text-cyan-400">
                         English
                     </button>
-                </div>
-                <div class="hidden md:flex items-center gap-2 text-xs font-mono text-cyan-300 glass-panel px-3 py-1.5 rounded-md border-cyan-500/30">
-                    <i class="fa-solid fa-microchip text-neonCyan"></i>
-                    <span id="system-status">SYSTEM: ONLINE</span>
                 </div>
             </div>
         </div>
@@ -734,10 +798,112 @@ Return a clean JSON object without Markdown formatting or backticks matching thi
             initChatWelcome();
         }
 
+        // SOS Modal Toggle
+        function toggleSOSModal(show) {
+            const modal = document.getElementById('sosModal');
+            if (modal) {
+                if (show) modal.classList.remove('hidden');
+                else modal.classList.add('hidden');
+            }
+        }
+
+        // Panic Screen Toggle
+        let lastEscTime = 0;
+        function togglePanicMode(show) {
+            const screen = document.getElementById('panicScreen');
+            if (screen) {
+                if (show) screen.classList.remove('hidden');
+                else screen.classList.add('hidden');
+            }
+        }
+
+        // Double Esc Key Panic Lock Detector
+        window.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                const now = Date.now();
+                if (now - lastEscTime < 500) {
+                    // Double press detected
+                    const screen = document.getElementById('panicScreen');
+                    if (screen) {
+                        const isHidden = screen.classList.contains('hidden');
+                        togglePanicMode(isHidden);
+                    }
+                }
+                lastEscTime = now;
+            }
+        });
+
+        // Interactive Particle Canvas (Layer 2)
+        function initParticleCanvas() {
+            const canvas = document.getElementById('particleCanvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+            
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            const particles = [];
+            const count = Math.min(width > 768 ? 45 : 20, 50);
+
+            for (let i = 0; i < count; i++) {
+                particles.push({
+                    x: Math.random() * width,
+                    y: Math.random() * height,
+                    vx: (Math.random() - 0.5) * 0.6,
+                    vy: (Math.random() - 0.5) * 0.6,
+                    radius: Math.random() * 1.8 + 0.8,
+                    color: i % 2 === 0 ? 'rgba(0, 243, 255, 0.4)' : 'rgba(181, 0, 255, 0.35)'
+                });
+            }
+
+            function animate() {
+                ctx.clearRect(0, 0, width, height);
+
+                for (let i = 0; i < particles.length; i++) {
+                    const p = particles[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+
+                    if (p.x < 0 || p.x > width) p.vx *= -1;
+                    if (p.y < 0 || p.y > height) p.vy *= -1;
+
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.radius, 0, Math.PI * 2);
+                    ctx.fillStyle = p.color;
+                    ctx.fill();
+
+                    // Connect close particles with subtle cyber line
+                    for (let j = i + 1; j < particles.length; j++) {
+                        const p2 = particles[j];
+                        const dx = p.x - p2.x;
+                        const dy = p.y - p2.y;
+                        const dist = Math.sqrt(dx * dx + dy * dy);
+
+                        if (dist < 120) {
+                            ctx.beginPath();
+                            ctx.strokeStyle = `rgba(0, 243, 255, ${0.15 * (1 - dist / 120)})`;
+                            ctx.lineWidth = 0.5;
+                            ctx.moveTo(p.x, p.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.stroke();
+                        }
+                    }
+                }
+                requestAnimationFrame(animate);
+            }
+            animate();
+        }
+
         // Window Load Initializations
         window.onload = function() {
             renderTimeline();
             initChatWelcome();
+            initParticleCanvas();
         };
     </script>
 </body>
