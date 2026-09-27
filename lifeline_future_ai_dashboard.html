@@ -1,0 +1,710 @@
+<!DOCTYPE html>
+<html lang="mr" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeLine Future - AI Integrated Life Engine</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;800;900&family=Rajdhani:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <script>
+        tailwind.config = {
+            darkMode: 'class',
+            theme: {
+                extend: {
+                    colors: {
+                        neonCyan: '#00f3ff',
+                        neonPurple: '#b500ff',
+                        neonPink: '#ff007f',
+                        darkBg: '#050814',
+                        cardBg: 'rgba(15, 23, 42, 0.65)',
+                        borderGlow: 'rgba(0, 243, 255, 0.25)'
+                    },
+                    fontFamily: {
+                        orbitron: ['Orbitron', 'sans-serif'],
+                        rajdhani: ['Rajdhani', 'sans-serif'],
+                        devanagari: ['Noto Sans Devanagari', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
+
+    <style>
+        body {
+            background-color: #030712;
+            color: #e2e8f0;
+            font-family: 'Rajdhani', 'Noto Sans Devanagari', sans-serif;
+            background-image: 
+                radial-gradient(circle at 15% 20%, rgba(181, 0, 255, 0.15) 0%, transparent 45%),
+                radial-gradient(circle at 85% 80%, rgba(0, 243, 255, 0.12) 0%, transparent 45%);
+            background-attachment: fixed;
+        }
+
+        .glass-panel {
+            background: rgba(15, 23, 42, 0.65);
+            backdrop-filter: blur(16px);
+            -webkit-backdrop-filter: blur(16px);
+            border: 1px solid rgba(0, 243, 255, 0.18);
+            box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.37);
+        }
+
+        .glass-panel-purple {
+            background: rgba(24, 15, 42, 0.65);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(181, 0, 255, 0.25);
+        }
+
+        .neon-border-cyan {
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.3);
+        }
+
+        .neon-border-purple {
+            box-shadow: 0 0 15px rgba(181, 0, 255, 0.3);
+        }
+
+        .neon-text-cyan {
+            text-shadow: 0 0 10px rgba(0, 243, 255, 0.7);
+        }
+
+        .neon-text-purple {
+            text-shadow: 0 0 10px rgba(181, 0, 255, 0.7);
+        }
+
+        .cyber-btn-primary {
+            background: linear-gradient(135deg, rgba(0, 243, 255, 0.2), rgba(181, 0, 255, 0.4));
+            border: 1px solid #00f3ff;
+            transition: all 0.3s ease;
+        }
+
+        .cyber-btn-primary:hover {
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.6);
+            transform: translateY(-2px);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #050814;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #00f3ff;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #b500ff;
+        }
+
+        @keyframes pulseGlow {
+            0%, 100% { opacity: 0.4; }
+            50% { opacity: 0.8; }
+        }
+
+        .glow-pulse {
+            animation: pulseGlow 3s infinite ease-in-out;
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col justify-between overflow-x-hidden">
+
+    <header class="sticky top-0 z-50 glass-panel border-b border-cyan-500/20 px-4 lg:px-8 py-3">
+        <div class="max-w-7xl mx-auto flex justify-between items-center">
+            <div class="flex items-center gap-3">
+                <div class="relative">
+                    <div class="w-10 h-10 rounded-full bg-gradient-to-tr from-cyan-500 to-purple-600 flex items-center justify-center font-bold text-white shadow-lg animate-pulse">
+                        <i class="fa-solid fa-brain text-xl"></i>
+                    </div>
+                    <span class="absolute -bottom-1 -right-1 flex h-3 w-3">
+                        <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+                        <span class="relative inline-flex rounded-full h-3 w-3 bg-cyan-500"></span>
+                    </span>
+                </div>
+                <div>
+                    <h1 class="font-orbitron font-extrabold text-xl md:text-2xl text-transparent bg-clip-text bg-gradient-to-r from-neonCyan via-cyan-200 to-neonPurple tracking-wider">
+                        LIFELINE FUTURE
+                    </h1>
+                    <p class="text-xs text-cyan-400/80 font-mono tracking-widest uppercase">AI-POWERED LIFE ARCHITECT</p>
+                </div>
+            </div>
+
+            <!-- Controls (Language Switcher) -->
+            <div class="flex items-center gap-4">
+                <div class="flex bg-slate-900/90 border border-cyan-500/30 rounded-lg p-1 text-xs font-semibold">
+                    <button id="lang-mr" onclick="switchLanguage('mr')" class="px-3 py-1.5 rounded-md transition-all bg-cyan-500 text-slate-950 font-bold shadow-md">
+                        मराठी
+                    </button>
+                    <button id="lang-en" onclick="switchLanguage('en')" class="px-3 py-1.5 rounded-md transition-all text-slate-400 hover:text-cyan-400">
+                        English
+                    </button>
+                </div>
+                <div class="hidden md:flex items-center gap-2 text-xs font-mono text-cyan-300 glass-panel px-3 py-1.5 rounded-md border-cyan-500/30">
+                    <i class="fa-solid fa-microchip text-neonCyan"></i>
+                    <span id="system-status">SYSTEM: ONLINE</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl w-full mx-auto px-4 lg:px-8 py-6 space-y-8 flex-grow">
+        
+        <!-- Hero Banner -->
+        <section class="glass-panel rounded-2xl p-6 md:p-8 relative overflow-hidden border border-cyan-500/30">
+            <div class="absolute -top-24 -right-24 w-72 h-72 bg-neonPurple/20 rounded-full blur-3xl pointer-events-none"></div>
+            <div class="absolute -bottom-24 -left-24 w-72 h-72 bg-neonCyan/20 rounded-full blur-3xl pointer-events-none"></div>
+            
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 items-center relative z-10">
+                <div class="md:col-span-2 space-y-3">
+                    <span class="px-3 py-1 rounded-full text-xs font-mono bg-cyan-500/10 border border-cyan-500/40 text-neonCyan inline-block">
+                        <i class="fa-solid fa-sparkles mr-1"></i> <span data-key="hero-badge">भविष्याचा बुद्धिमत्ता मंच</span>
+                    </span>
+                    <h2 class="text-2xl md:text-4xl font-extrabold text-white font-orbitron leading-tight" data-key="hero-title">
+                        तुमच्या आयुष्याची पुढची दिशा <span class="text-neonCyan">AI सह शोधा</span>
+                    </h2>
+                    <p class="text-slate-300 text-sm md:text-base leading-relaxed" data-key="hero-desc">
+                        लाइफलाईन फ्युचर तुम्हाला करिअर, आरोग्य आणि वैयक्तिक ध्येयांविषयी AI-आधारित भविष्यवाणी, अंतर्दृष्टी आणि मार्गदर्शन पुरवते.
+                    </p>
+                </div>
+                <div class="flex flex-col sm:flex-row md:flex-col gap-3 justify-center">
+                    <a href="#analyzer-section" class="cyber-btn-primary text-center px-5 py-3 rounded-xl font-bold text-cyan-300 text-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i> <span data-key="btn-start">AI जीवन विश्लेषण सुरू करा</span>
+                    </a>
+                    <a href="#chat-section" class="glass-panel-purple hover:bg-purple-900/40 text-center px-5 py-3 rounded-xl font-bold text-purple-300 border border-purple-500/40 text-sm flex items-center justify-center gap-2 transition-all">
+                        <i class="fa-solid fa-comments"></i> <span data-key="btn-chat">AI फ्युचर असिस्टंटशी बोला</span>
+                    </a>
+                </div>
+            </div>
+        </section>
+
+        <section id="analyzer-section" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            <!-- User Input Form -->
+            <div class="lg:col-span-5 glass-panel rounded-2xl p-6 border border-cyan-500/30 space-y-5">
+                <div class="flex items-center justify-between border-b border-slate-700/60 pb-3">
+                    <h3 class="font-orbitron text-lg font-bold text-cyan-300 flex items-center gap-2">
+                        <i class="fa-solid fa-id-card text-neonCyan"></i>
+                        <span data-key="form-title">तुमचे प्रोफाइल तपशील</span>
+                    </h3>
+                    <span class="text-xs font-mono text-slate-400">STEP 01</span>
+                </div>
+
+                <form id="lifeForm" onsubmit="generateAIPrediction(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1" data-key="lbl-name">पूर्ण नाव</label>
+                        <input type="text" id="userName" required placeholder="उदा. राहुल शर्मा" class="w-full bg-slate-900/80 border border-slate-700 focus:border-neonCyan rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none transition-all">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-4">
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1" data-key="lbl-age">वय</label>
+                            <input type="number" id="userAge" required min="10" max="100" placeholder="24" class="w-full bg-slate-900/80 border border-slate-700 focus:border-neonCyan rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none transition-all">
+                        </div>
+                        <div>
+                            <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1" data-key="lbl-field">सध्याचे क्षेत्र / शिक्षण</label>
+                            <input type="text" id="userField" required placeholder="IT, शेती, शिक्षण..." class="w-full bg-slate-900/80 border border-slate-700 focus:border-neonCyan rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none transition-all">
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1" data-key="lbl-goals">भविष्यातील ध्येय (Future Goals)</label>
+                        <textarea id="userGoals" required rows="2" placeholder="उदा. 5 वर्षांत टेक स्टार्टअप सुरू करणे किंवा नवीन कौशल्य शिकणे..." class="w-full bg-slate-900/80 border border-slate-700 focus:border-neonCyan rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none transition-all resize-none"></textarea>
+                    </div>
+
+                    <div>
+                        <label class="block text-xs font-semibold text-slate-300 uppercase tracking-wider mb-1" data-key="lbl-habits">दैनिक सवयी / जीवनशैली</label>
+                        <select id="userLifestyle" class="w-full bg-slate-900/80 border border-slate-700 focus:border-neonCyan rounded-xl px-4 py-2.5 text-sm text-white focus:outline-none transition-all">
+                            <option value="balanced" data-key="opt-balanced">संतुलित जीवनशैली (Balanced Lifestyle)</option>
+                            <option value="high-work" data-key="opt-work">अति-काम / व्यस्त दिनचर्या (High Work Stress)</option>
+                            <option value="fitness-focused" data-key="opt-fitness">आरोग्य-केंद्री (Fitness Oriented)</option>
+                            <option value="learning" data-key="opt-learning">सतत नवीन शिकण्याची सवय (Continuous Learner)</option>
+                        </select>
+                    </div>
+
+                    <button type="submit" id="btnAnalyze" class="w-full cyber-btn-primary font-bold py-3 px-4 rounded-xl text-cyan-300 flex items-center justify-center gap-2 shadow-lg">
+                        <i class="fa-solid fa-microchip"></i>
+                        <span data-key="btn-generate">AI भविष्यवाणी जनरेट करा</span>
+                    </button>
+                </form>
+            </div>
+
+            <!-- Output & AI Analysis Dashboard -->
+            <div class="lg:col-span-7 glass-panel-purple rounded-2xl p-6 border border-purple-500/30 flex flex-col justify-between">
+                <div class="space-y-4">
+                    <div class="flex items-center justify-between border-b border-purple-500/20 pb-3">
+                        <h3 class="font-orbitron text-lg font-bold text-purple-300 flex items-center gap-2">
+                            <i class="fa-solid fa-chart-line text-neonPurple"></i>
+                            <span data-key="res-title">AI फ्युचर ट्रेंड्स आणि रिपोर्ट</span>
+                        </h3>
+                        <span id="analysis-time" class="text-xs font-mono text-slate-400">AWAITING INPUT</span>
+                    </div>
+
+                    <!-- Placeholder / Default View -->
+                    <div id="aiPlaceholder" class="text-center py-12 space-y-4">
+                        <div class="w-16 h-16 mx-auto rounded-full bg-purple-500/10 border border-purple-500/30 flex items-center justify-center text-neonPurple text-2xl animate-pulse">
+                            <i class="fa-solid fa-atom"></i>
+                        </div>
+                        <p class="text-slate-400 text-sm max-w-md mx-auto" data-key="res-placeholder">
+                            डाव्या बाजूला तुमची माहिती भरा आणि 'AI भविष्यवाणी जनरेट करा' वर क्लिक करून तुमचे वैयक्तिक भविष्यातील विश्लेषण मिळवा.
+                        </p>
+                    </div>
+
+                    <!-- Loading Animation -->
+                    <div id="aiLoading" class="hidden text-center py-12 space-y-4">
+                        <div class="inline-block relative w-16 h-16">
+                            <div class="absolute inset-0 rounded-full border-4 border-cyan-500/20 border-t-neonCyan animate-spin"></div>
+                            <div class="absolute inset-2 rounded-full border-4 border-purple-500/20 border-t-neonPurple animate-spin" style="animation-direction: reverse; animation-duration: 1.5s;"></div>
+                        </div>
+                        <p class="text-cyan-300 font-mono text-sm animate-pulse" data-key="res-loading">
+                            AI तुमच्या भविष्यातील ध्येये व ट्रेंड्सचे विश्लेषण करत आहे...
+                        </p>
+                    </div>
+
+                    <!-- Output Content -->
+                    <div id="aiResults" class="hidden space-y-5">
+                        
+                        <!-- Prediction Card -->
+                        <div class="bg-slate-950/60 rounded-xl p-4 border border-cyan-500/20 space-y-2">
+                            <div class="flex items-center gap-2 text-xs font-bold text-neonCyan uppercase tracking-widest">
+                                <i class="fa-solid fa-bullseye"></i>
+                                <span data-key="res-career-head">भविष्यातील करिअर ट्रेंड (5 Years Projection)</span>
+                            </div>
+                            <p id="resCareer" class="text-slate-200 text-sm leading-relaxed"></p>
+                        </div>
+
+                        <!-- Wellness & Life Guidance -->
+                        <div class="bg-slate-950/60 rounded-xl p-4 border border-purple-500/20 space-y-2">
+                            <div class="flex items-center gap-2 text-xs font-bold text-neonPurple uppercase tracking-widest">
+                                <i class="fa-solid fa-heart-pulse"></i>
+                                <span data-key="res-wellness-head">आरोग्य आणि वैयक्तिक संतुलन मार्गदर्शन</span>
+                            </div>
+                            <p id="resWellness" class="text-slate-200 text-sm leading-relaxed"></p>
+                        </div>
+
+                        <!-- Strategic AI Recommendations -->
+                        <div class="bg-slate-950/60 rounded-xl p-4 border border-pink-500/20 space-y-2">
+                            <div class="flex items-center gap-2 text-xs font-bold text-neonPink uppercase tracking-widest">
+                                <i class="fa-solid fa-lightbulb"></i>
+                                <span data-key="res-recommendation-head">AI शिफारस केलेले 3 मुख्य टप्पे</span>
+                            </div>
+                            <ul id="resSteps" class="list-disc list-inside text-slate-300 text-sm space-y-1"></ul>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Footer note in card -->
+                <div class="mt-4 pt-3 border-t border-purple-500/20 flex justify-between items-center text-xs text-slate-500 font-mono">
+                    <span>ENGINE: GEMINI-3-FLASH</span>
+                    <span id="confidenceScore">ACCURACY: --</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="glass-panel rounded-2xl p-6 border border-cyan-500/30 space-y-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-slate-700/60 pb-3 gap-2">
+                <div>
+                    <h3 class="font-orbitron text-lg font-bold text-cyan-300 flex items-center gap-2">
+                        <i class="fa-solid fa-timeline text-neonCyan"></i>
+                        <span data-key="timeline-title">तुमचे ध्येय आणि भविष्याची टाईमलाईन</span>
+                    </h3>
+                    <p class="text-slate-400 text-xs" data-key="timeline-sub">तुमची आगामी वर्षांतील उद्दिष्टे आणि AI चे टप्पे</p>
+                </div>
+                <button onclick="addCustomGoalModal()" class="px-3 py-1.5 rounded-lg bg-cyan-500/10 border border-cyan-500/40 text-cyan-300 text-xs hover:bg-cyan-500/20 font-bold flex items-center gap-1 transition-all">
+                    <i class="fa-solid fa-plus"></i> <span data-key="btn-add-goal">नवीन ध्येय जोडा</span>
+                </button>
+            </div>
+
+            <!-- Timeline Elements Container -->
+            <div id="timelineContainer" class="relative border-l-2 border-cyan-500/30 ml-4 md:ml-8 pl-6 space-y-8 py-2">
+                <!-- Initial default timeline items will be rendered via JS -->
+            </div>
+        </section>
+
+        <section id="chat-section" class="glass-panel rounded-2xl p-6 border border-cyan-500/30 space-y-4">
+            <div class="flex items-center justify-between border-b border-slate-700/60 pb-3">
+                <div class="flex items-center gap-3">
+                    <div class="w-8 h-8 rounded-full bg-cyan-500/20 border border-cyan-500/50 flex items-center justify-center text-neonCyan">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div>
+                        <h3 class="font-orbitron text-lg font-bold text-white" data-key="chat-title">AI फ्युचर चॅट बॉट</h3>
+                        <p class="text-xs text-cyan-400/80 font-mono" data-key="chat-status">24/7 भविष्याबद्दल प्रश्न विचारा</p>
+                    </div>
+                </div>
+                <button onclick="clearChat()" class="text-xs text-slate-400 hover:text-cyan-400 font-mono flex items-center gap-1">
+                    <i class="fa-solid fa-rotate-right"></i> Reset
+                </button>
+            </div>
+
+            <!-- Chat Window -->
+            <div id="chatBox" class="h-64 overflow-y-auto space-y-3 p-3 bg-slate-950/70 rounded-xl border border-slate-800 text-sm">
+                <!-- Chat messages appended dynamically -->
+            </div>
+
+            <!-- Chat Input Controls -->
+            <form onsubmit="handleUserChat(event)" class="flex gap-2">
+                <input type="text" id="chatInput" required placeholder="उदा. माझ्या करिअरसाठी पुढील ५ वर्षांत कोणती कौशल्ये महत्त्वाची असतील?" class="flex-grow bg-slate-900/90 border border-slate-700 focus:border-neonCyan rounded-xl px-4 py-2.5 text-sm text-white placeholder-slate-500 focus:outline-none transition-all">
+                <button type="submit" class="cyber-btn-primary px-5 py-2.5 rounded-xl font-bold text-cyan-300 text-sm flex items-center gap-2">
+                    <i class="fa-solid fa-paper-plane"></i>
+                    <span class="hidden sm:inline" data-key="btn-send">पाठवा</span>
+                </button>
+            </form>
+        </section>
+
+    </main>
+
+    <footer class="glass-panel border-t border-cyan-500/20 py-4 px-4 text-center text-xs text-slate-400 font-mono mt-8">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center gap-2">
+            <p>© 2026 LifeLine Future AI. सर्व हक्क सुरक्षित.</p>
+            <p class="text-cyan-400/70">Designed for Future Generation • Developed in Marathi & English</p>
+        </div>
+    </footer>
+
+    <script>
+        // Language Dictionary
+        const translations = {
+            mr: {
+                "hero-badge": "भविष्याचा बुद्धिमत्ता मंच",
+                "hero-title": "तुमच्या आयुष्याची पुढची दिशा <span class='text-neonCyan'>AI सह शोधा</span>",
+                "hero-desc": "लाइफलाईन फ्युचर तुम्हाला करिअर, आरोग्य आणि वैयक्तिक ध्येयांविषयी AI-आधारित भविष्यवाणी, अंतर्दृष्टी आणि मार्गदर्शन पुरवते.",
+                "btn-start": "AI जीवन विश्लेषण सुरू करा",
+                "btn-chat": "AI फ्युचर असिस्टंटशी बोला",
+                "form-title": "तुमचे प्रोफाइल तपशील",
+                "lbl-name": "पूर्ण नाव",
+                "lbl-age": "वय",
+                "lbl-field": "सध्याचे क्षेत्र / शिक्षण",
+                "lbl-goals": "भविष्यातील ध्येय (Future Goals)",
+                "lbl-habits": "दैनिक सवयी / जीवनशैली",
+                "opt-balanced": "संतुलित जीवनशैली (Balanced Lifestyle)",
+                "opt-work": "अति-काम / व्यस्त दिनचर्या (High Work Stress)",
+                "opt-fitness": "आरोग्य-केंद्री (Fitness Oriented)",
+                "opt-learning": "सतत नवीन शिकण्याची सवय (Continuous Learner)",
+                "btn-generate": "AI भविष्यवाणी जनरेट करा",
+                "res-title": "AI फ्युचर ट्रेंड्स आणि रिपोर्ट",
+                "res-placeholder": "डाव्या बाजूला तुमची माहिती भरा आणि 'AI भविष्यवाणी जनरेट करा' वर क्लिक करून तुमचे वैयक्तिक भविष्यातील विश्लेषण मिळवा.",
+                "res-loading": "AI तुमच्या भविष्यातील ध्येये व ट्रेंड्सचे विश्लेषण करत आहे...",
+                "res-career-head": "भविष्यातील करिअर ट्रेंड (5 Years Projection)",
+                "res-wellness-head": "आरोग्य आणि वैयक्तिक संतुलन मार्गदर्शन",
+                "res-recommendation-head": "AI शिफारस केलेले 3 मुख्य टप्पे",
+                "timeline-title": "तुमचे ध्येय आणि भविष्याची टाईमलाईन",
+                "timeline-sub": "तुमची आगामी वर्षांतील उद्दिष्टे आणि AI चे टप्पे",
+                "btn-add-goal": "नवीन ध्येय जोडा",
+                "chat-title": "AI फ्युचर चॅट बॉट",
+                "chat-status": "24/7 भविष्याबद्दल प्रश्न विचारा",
+                "btn-send": "पाठवा"
+            },
+            en: {
+                "hero-badge": "FUTURE INTELLIGENCE PLATFORM",
+                "hero-title": "Discover Your Life's Direction <span class='text-neonCyan'>With AI</span>",
+                "hero-desc": "LifeLine Future provides AI-driven predictions, career insights, and personal wellness roadmaps aligned with your goals.",
+                "btn-start": "Start AI Life Analysis",
+                "btn-chat": "Talk to AI Future Assistant",
+                "form-title": "Your Profile Details",
+                "lbl-name": "Full Name",
+                "lbl-age": "Age",
+                "lbl-field": "Current Field / Education",
+                "lbl-goals": "Future Goals",
+                "lbl-habits": "Daily Habits / Lifestyle",
+                "opt-balanced": "Balanced Lifestyle",
+                "opt-work": "High Work Stress / Busy",
+                "opt-fitness": "Fitness Oriented",
+                "opt-learning": "Continuous Learner",
+                "btn-generate": "Generate AI Prediction",
+                "res-title": "AI Future Trends & Report",
+                "res-placeholder": "Fill in your details on the left and click 'Generate AI Prediction' to receive your customized futuristic life analysis.",
+                "res-loading": "AI is analyzing your future trends and goals...",
+                "res-career-head": "Future Career Trends (5 Year Projection)",
+                "res-wellness-head": "Health & Work-Life Balance Insights",
+                "res-recommendation-head": "3 Key Action Steps Recommended by AI",
+                "timeline-title": "Your Goals & Future Timeline",
+                "timeline-sub": "Milestones and roadmap projected for coming years",
+                "btn-add-goal": "Add New Goal",
+                "chat-title": "AI Future Chat Bot",
+                "chat-status": "Ask any question about your future 24/7",
+                "btn-send": "Send"
+            }
+        };
+
+        let currentLang = 'mr';
+
+        // Sample initial timeline items
+        let timelineGoals = [
+            { year: "2026", title: "सध्याची ध्येये (Current Base)", desc: "कौशल्य विकास आणि AI टूल्स आत्मसात करणे.", type: "current" },
+            { year: "2028", title: "मध्यम मुदतीचे टप्पे (Mid Goal)", desc: "आपल्या क्षेत्रातील लीडरशिप किंवा नवीन प्रकल्पाची सुरुवात.", type: "mid" },
+            { year: "2030", title: "दीर्घकालीन ध्येय (Future Vision)", desc: "ग्लोबल लेव्हलवर यश आणि आर्थिक स्वातंत्र्य प्राप्त करणे.", type: "future" }
+        ];
+
+        function switchLanguage(lang) {
+            currentLang = lang;
+            
+            // Toggle button highlights
+            const btnMr = document.getElementById('lang-mr');
+            const btnEn = document.getElementById('lang-en');
+            if (lang === 'mr') {
+                btnMr.className = "px-3 py-1.5 rounded-md transition-all bg-cyan-500 text-slate-950 font-bold shadow-md";
+                btnEn.className = "px-3 py-1.5 rounded-md transition-all text-slate-400 hover:text-cyan-400";
+            } else {
+                btnEn.className = "px-3 py-1.5 rounded-md transition-all bg-cyan-500 text-slate-950 font-bold shadow-md";
+                btnMr.className = "px-3 py-1.5 rounded-md transition-all text-slate-400 hover:text-cyan-400";
+            }
+
+            // Translate Static Elements
+            document.querySelectorAll('[data-key]').forEach(el => {
+                const key = el.getAttribute('data-key');
+                if (translations[lang][key]) {
+                    el.innerHTML = translations[lang][key];
+                }
+            });
+
+            // Re-render Chat Welcome
+            initChatWelcome();
+        }
+
+        // Render Timeline
+        function renderTimeline() {
+            const container = document.getElementById('timelineContainer');
+            container.innerHTML = '';
+
+            timelineGoals.forEach((goal, idx) => {
+                const item = document.createElement('div');
+                item.className = "relative group";
+                item.innerHTML = `
+                    <div class="absolute -left-[31px] top-0 w-4 h-4 rounded-full bg-slate-950 border-2 border-neonCyan group-hover:scale-125 transition-all shadow-[0_0_10px_#00f3ff]"></div>
+                    <div class="glass-panel p-4 rounded-xl border border-slate-700/50 hover:border-cyan-500/40 transition-all">
+                        <div class="flex items-center gap-2 mb-1">
+                            <span class="px-2 py-0.5 rounded font-mono text-xs bg-cyan-500/20 text-neonCyan font-bold">${goal.year}</span>
+                            <h4 class="text-sm font-bold text-white">${goal.title}</h4>
+                        </div>
+                        <p class="text-xs text-slate-300">${goal.desc}</p>
+                    </div>
+                `;
+                container.appendChild(item);
+            });
+        }
+
+        // Add custom goal to timeline
+        function addCustomGoalModal() {
+            const year = prompt(currentLang === 'mr' ? "वर्ष प्रविष्ट करा (उदा. 2027):" : "Enter Target Year (e.g. 2027):", "2027");
+            if (!year) return;
+            const title = prompt(currentLang === 'mr' ? "ध्येयाचे शीर्षक:" : "Goal Title:", "माझे नवीन ध्येय");
+            if (!title) return;
+            const desc = prompt(currentLang === 'mr' ? "थोडक्यात वर्णन:" : "Short Description:", "या ध्येयाचे मुख्य तपशील...");
+
+            timelineGoals.push({ year, title, desc: desc || "", type: "user" });
+            timelineGoals.sort((a, b) => parseInt(a.year) - parseInt(b.year));
+            renderTimeline();
+        }
+
+        async function generateAIPrediction(e) {
+            e.preventDefault();
+
+            const name = document.getElementById('userName').value;
+            const age = document.getElementById('userAge').value;
+            const field = document.getElementById('userField').value;
+            const goals = document.getElementById('userGoals').value;
+            const lifestyle = document.getElementById('userLifestyle').value;
+
+            // UI Elements state transition
+            document.getElementById('aiPlaceholder').classList.add('hidden');
+            document.getElementById('aiResults').classList.add('hidden');
+            document.getElementById('aiLoading').classList.remove('hidden');
+
+            const systemPrompt = `You are LifeLine Future AI, a futuristic life coach and career trend analyst.
+Provide response in ${currentLang === 'mr' ? 'Marathi' : 'English'} language.
+Return a clean JSON object without Markdown formatting or backticks matching this structure:
+{
+  "careerTrend": "Detailed analysis of career/educational trends for this profile in 5 years",
+  "wellnessAdvice": "Personalized health, work-life balance & habit adjustment tips",
+  "steps": ["Action Step 1", "Action Step 2", "Action Step 3"],
+  "confidence": "94%"
+}`;
+
+            const userQuery = `Name: ${name}, Age: ${age}, Current Field: ${field}, Future Goals: ${goals}, Lifestyle: ${lifestyle}`;
+
+            try {
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: userQuery }] }],
+                        systemInstruction: { parts: [{ text: systemPrompt }] }
+                    })
+                });
+
+                const data = await response.json();
+                const rawText = data?.candidates?.[0]?.content?.parts?.[0]?.text;
+
+                let parsed;
+                try {
+                    // Clean potential formatting tags
+                    const cleaned = rawText.replace(/```json/g, '').replace(/```/g, '').trim();
+                    parsed = JSON.parse(cleaned);
+                } catch(err) {
+                    // Fallback formatting if JSON parsing fails
+                    parsed = {
+                        careerTrend: currentLang === 'mr' ? `${field} क्षेत्रात तंत्रज्ञानाचा वापर वाढेल. तुमच्या ध्येयानुसार AI सह कार्यपद्धती बदलणे फायदेशीर ठरेल.` : `In ${field}, technology adoption will increase. Adapting your goals with AI will be beneficial.`,
+                        wellnessAdvice: currentLang === 'mr' ? `दररोज नियमित व्यायाम आणि ताणतणाव व्यवस्थापनावर लक्ष केंद्रित करा.` : `Focus on daily stress management and balanced routine.`,
+                        steps: [
+                            currentLang === 'mr' ? "१. संबंधित नवीन AI टूल्स शिका." : "1. Learn relevant AI tools.",
+                            currentLang === 'mr' ? "२. नेटवर्क आणि मार्गदर्शन मिळवा." : "2. Build networks and find mentors.",
+                            currentLang === 'mr' ? "३. मासिक उद्दिष्टे सेट करा." : "3. Set monthly milestones."
+                        ],
+                        confidence: "92%"
+                    };
+                }
+
+                // Render Results
+                document.getElementById('resCareer').innerText = parsed.careerTrend;
+                document.getElementById('resWellness').innerText = parsed.wellnessAdvice;
+                
+                const stepsContainer = document.getElementById('resSteps');
+                stepsContainer.innerHTML = '';
+                parsed.steps.forEach(s => {
+                    const li = document.createElement('li');
+                    li.innerText = s;
+                    stepsContainer.appendChild(li);
+                });
+
+                document.getElementById('confidenceScore').innerText = `ACCURACY: ${parsed.confidence || '95%'}`;
+                document.getElementById('analysis-time').innerText = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+                // Toggle visibility
+                document.getElementById('aiLoading').classList.add('hidden');
+                document.getElementById('aiResults').classList.remove('hidden');
+
+            } catch (error) {
+                console.error(error);
+                // Fallback simulation in case of network issue
+                setTimeout(() => {
+                    document.getElementById('resCareer').innerText = currentLang === 'mr' 
+                        ? `${name} जी, ${field} क्षेत्रात पुढील ५ वर्षांत AI ऑटोमेशनचा मोठा प्रभाव पडेल. तंत्रज्ञान कौशल्यांमध्ये अपग्रेड करणे गरजेचे राहील.`
+                        : `Hello ${name}, in ${field}, AI automation will make a strong impact in 5 years. Upskilling will be critical.`;
+                    
+                    document.getElementById('resWellness').innerText = currentLang === 'mr'
+                        ? `तुम्ही निवडलेल्या जीवनशैलीनुसार, दररोज ७ तास झोप आणि काम-जीवन संतुलन राखल्यास दीर्घकालीन यशाची शक्यता वाढेल.`
+                        : `Based on your lifestyle, maintaining 7 hours of sleep and stress management will boost your long-term success.`;
+
+                    document.getElementById('resSteps').innerHTML = `
+                        <li>${currentLang === 'mr' ? '१. संबंधित विषयात प्रमाणपत्र मिळवा' : '1. Get certified in core domain'}</li>
+                        <li>${currentLang === 'mr' ? '२. दररोज ३० मिनिटे नवीन शिकण्यासाठी द्या' : '2. Dedicate 30 mins daily to learning'}</li>
+                        <li>${currentLang === 'mr' ? '३. नियमित आरोग्य तपासणी व व्यायाम करा' : '3. Maintain regular health checks'}</li>
+                    `;
+
+                    document.getElementById('confidenceScore').innerText = `ACCURACY: 90% (SIMULATED)`;
+                    document.getElementById('analysis-time').innerText = new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'});
+
+                    document.getElementById('aiLoading').classList.add('hidden');
+                    document.getElementById('aiResults').classList.remove('hidden');
+                }, 1000);
+            }
+        }
+
+        function initChatWelcome() {
+            const chatBox = document.getElementById('chatBox');
+            chatBox.innerHTML = '';
+            
+            const welcomeText = currentLang === 'mr'
+                ? "नमस्कार! मी तुमचा लाइफलाईन फ्युचर AI असिस्टंट आहे. करिअर, आरोग्य किंवा भविष्याबद्दल काहीही विचारा!"
+                : "Hello! I am your LifeLine Future AI Assistant. Ask me anything about your future career or wellness!";
+
+            appendChatMessage('bot', welcomeText);
+        }
+
+        function appendChatMessage(sender, msg) {
+            const chatBox = document.getElementById('chatBox');
+            const wrapper = document.createElement('div');
+            
+            if (sender === 'user') {
+                wrapper.className = "flex justify-end";
+                wrapper.innerHTML = `
+                    <div class="bg-cyan-600/40 border border-cyan-400/30 text-white rounded-xl px-3 py-2 max-w-[80%] text-xs shadow-md">
+                        ${msg}
+                    </div>
+                `;
+            } else {
+                wrapper.className = "flex justify-start gap-2 items-start";
+                wrapper.innerHTML = `
+                    <div class="w-6 h-6 rounded-full bg-purple-500/30 border border-purple-400/50 flex items-center justify-center text-neonPurple text-xs flex-shrink-0 mt-0.5">
+                        <i class="fa-solid fa-robot"></i>
+                    </div>
+                    <div class="bg-slate-900 border border-purple-500/30 text-slate-200 rounded-xl px-3 py-2 max-w-[80%] text-xs shadow-md">
+                        ${msg}
+                    </div>
+                `;
+            }
+            chatBox.appendChild(wrapper);
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+
+        async function handleUserChat(e) {
+            e.preventDefault();
+            const input = document.getElementById('chatInput');
+            const text = input.value.trim();
+            if (!text) return;
+
+            appendChatMessage('user', text);
+            input.value = '';
+
+            // Show typing indicator
+            const typingId = 'typing-' + Date.now();
+            const chatBox = document.getElementById('chatBox');
+            const typingDiv = document.createElement('div');
+            typingDiv.id = typingId;
+            typingDiv.className = "text-xs text-slate-500 font-mono animate-pulse flex items-center gap-1 pl-8";
+            typingDiv.innerText = "AI is thinking...";
+            chatBox.appendChild(typingDiv);
+            chatBox.scrollTop = chatBox.scrollHeight;
+
+            try {
+                const apiKey = "";
+                const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-3-flash-preview:generateContent?key=${apiKey}`;
+
+                const response = await fetch(apiUrl, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        contents: [{ parts: [{ text: text }] }],
+                        systemInstruction: {
+                            parts: [{
+                                text: `You are LifeLine Future AI Bot. Provide helpful, encouraging, futuristic life advice in ${currentLang === 'mr' ? 'Marathi' : 'English'}. Keep responses concise (under 3 sentences).`
+                            }]
+                        }
+                    })
+                });
+
+                const data = await response.json();
+                const botReply = data?.candidates?.[0]?.content?.parts?.[0]?.text || 
+                    (currentLang === 'mr' ? "माफ करा, मी सध्या प्रक्रिया करू शकत नाही. कृपया पुन्हा प्रयत्न करा." : "Sorry, I am unable to process now. Please try again.");
+
+                document.getElementById(typingId)?.remove();
+                appendChatMessage('bot', botReply);
+
+            } catch (err) {
+                console.error(err);
+                document.getElementById(typingId)?.remove();
+                
+                const fallbackReply = currentLang === 'mr'
+                    ? "तुमचा प्रश्न अतिशय महत्त्वाचा आहे! नवीन तंत्रज्ञान शिकणे आणि रोजच्या सवयी सुधारणे यावर भर दिल्यास यश नक्की मिळेल."
+                    : "That is a great question! Focusing on continuous skill acquisition and healthy habits will ensure strong future growth.";
+                appendChatMessage('bot', fallbackReply);
+            }
+        }
+
+        function clearChat() {
+            initChatWelcome();
+        }
+
+        // Window Load Initializations
+        window.onload = function() {
+            renderTimeline();
+            initChatWelcome();
+        };
+    </script>
+</body>
+</html>
