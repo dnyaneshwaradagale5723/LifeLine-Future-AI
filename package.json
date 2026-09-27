@@ -2,25 +2,16 @@
   "name": "lifeline-future-ai",
   "version": "1.0.0",
   "private": true,
-  "description": "LifeLine Future AI - Next-Gen Autonomous Life OS & E2EE Predictive Platform",
-  "workspaces": [
-    "apps/*"
-  ],
   "scripts": {
-    "dev": "npm run dev --workspaces",
-    "build": "npm run build --workspaces",
-    "start": "npm run start --workspaces",
-    "lint": "npm run lint --workspaces"
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
   },
-  "keywords": [
-    "ai",
-    "lifeline",
-    "future-prediction",
-    "e2ee",
-    "cyberpunk",
-    "nextjs",
-    "zero-knowledge"
-  ],
-  "author": "LifeLine Future AI Team",
-  "license": "PROPRIETARY"
+  "dependencies": {
+    "next": "^14.2.0",
+    "react": "^18.3.0",
+    "react-dom": "^18.3.0",
+    "framer-motion": "^11.2.0",
+    "lucide-react": "^0.378.0"
+  }
 }
