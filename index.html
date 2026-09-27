@@ -700,45 +700,33 @@ Return a clean JSON object without Markdown formatting or backticks matching thi
 
             let answered = false;
 
-            // Attempt Gemini API if connected
+            // 1. First Attempt: Vercel Secure Serverless Function (/api/chat)
             try {
-                const apiKey = "";
-                if (apiKey) {
-                    const apiUrl = `https://generativelanguage.googleapis.com/v1beta/models/gemini-1.5-flash:generateContent?key=${apiKey}`;
-                    const response = await fetch(apiUrl, {
-                        method: 'POST',
-                        headers: { 'Content-Type': 'application/json' },
-                        body: JSON.stringify({
-                            contents: [{ parts: [{ text: text }] }],
-                            systemInstruction: {
-                                parts: [{
-                                    text: `You are LifeLine Future AI Bot. Provide helpful, futuristic advice in ${currentLang === 'mr' ? 'Marathi' : 'English'}. Keep responses concise and practical.`
-                                }]
-                            }
-                        })
-                    });
+                const response = await fetch('/api/chat', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ message: text, lang: currentLang })
+                });
 
-                    if (response.ok) {
-                        const data = await response.json();
-                        const botReply = data?.candidates?.[0]?.content?.parts?.[0]?.text;
-                        if (botReply) {
-                            document.getElementById(typingId)?.remove();
-                            appendChatMessage('bot', botReply);
-                            answered = true;
-                        }
+                if (response.ok) {
+                    const data = await response.json();
+                    if (data && data.reply) {
+                        document.getElementById(typingId)?.remove();
+                        appendChatMessage('bot', data.reply);
+                        answered = true;
                     }
                 }
             } catch (err) {
-                console.warn("External API skipped, utilizing Intelligent Engine.");
+                console.warn("/api/chat serverless route unavailable or initializing, switching to smart local engine.");
             }
 
-            // Intelligent Offline AI Fallback Engine
+            // 2. Intelligent Offline/Smart Fallback Engine (Zero-Failure Guarantee)
             if (!answered) {
                 setTimeout(() => {
                     document.getElementById(typingId)?.remove();
                     const smartReply = generateSmartResponse(text);
                     appendChatMessage('bot', smartReply);
-                }, 600);
+                }, 500);
             }
         }
 
